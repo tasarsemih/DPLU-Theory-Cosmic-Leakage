@@ -1,0 +1,113 @@
+# ============================================
+# DPLU LEAKAGE SIMULATOR (EXTENDED FRAMEWORK)
+# Author: Semih TAŞAR
+# Purpose: Illustrative quantum toy model for
+#          cumulative cosmological phase leakage
+# ============================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, phase_damping_error
+from qiskit.compiler import transpile
+
+# --------------------------------------------
+# 1. Fundamental Constants (DPLU)
+# --------------------------------------------
+
+delta = 1.5e-15        # DPLU leakage constant (dimensionless)
+p_std = 1e-3           # Standard laboratory decoherence
+p_dplu = delta         # Universal cosmological noise floor
+
+shots = 4096
+
+# --------------------------------------------
+# 2. Effective Cosmic Cycles
+# (interaction-counted, not Planck-ticks)
+# --------------------------------------------
+
+cycles = np.logspace(12, 16, 60)   # Effective interaction count
+unwrapped_phase = cycles * delta  # Cumulative phase drift Θ(t)
+
+# --------------------------------------------
+# 3. Noise Model: Physical Decoherence
+# --------------------------------------------
+
+error_gate = phase_damping_error(p_std + p_dplu)
+
+noise_model = NoiseModel()
+noise_model.add_all_qubit_quantum_error(error_gate, ['rz', 'h'])
+
+simulator = AerSimulator(noise_model=noise_model)
+
+# --------------------------------------------
+# 4. Quantum Circuit Function
+# --------------------------------------------
+
+def run_dplu_circuit(theta):
+    qc = QuantumCircuit(1, 1)
+
+    # Prepare superposition
+    qc.h(0)
+
+    # Cumulative cosmological phase drift
+    qc.rz(theta, 0)
+
+    # Measurement basis rotation
+    qc.h(0)
+    qc.measure(0, 0)
+
+    tqc = transpile(qc, simulator)
+    result = simulator.run(tqc, shots=shots).result()
+    counts = result.get_counts()
+
+    p1 = counts.get('1', 0) / shots
+    return p1
+
+# --------------------------------------------
+# 5. Run Simulation
+# --------------------------------------------
+
+probabilities = []
+for theta in unwrapped_phase:
+    probabilities.append(run_dplu_circuit(theta))
+
+probabilities = np.array(probabilities)
+
+# --------------------------------------------
+# 6. Dark Matter Proxy
+# (Monotonic, entropic accumulation)
+# --------------------------------------------
+
+# Moving average to suppress oscillatory artifacts
+window = 5
+dm_effective = np.convolve(probabilities, 
+                            np.ones(window)/window, 
+                            mode='same')
+
+# --------------------------------------------
+# 7. Plot Results
+# --------------------------------------------
+
+plt.figure(figsize=(9, 6))
+
+plt.semilogx(cycles, unwrapped_phase, 
+             label="Cumulative Phase Drift Θ(t)")
+
+plt.semilogx(cycles, dm_effective, 
+             linestyle="--",
+             label="Effective Dark Matter Proxy")
+
+# Current cosmic epoch estimate
+plt.axvline(3.3e15, linestyle=":", label="Present Cosmic Epoch")
+
+plt.xlabel("Effective Interaction Cycles N")
+plt.ylabel("Accumulated Effect")
+plt.title("DPLU: Cosmological Phase Leakage Accumulation")
+
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
