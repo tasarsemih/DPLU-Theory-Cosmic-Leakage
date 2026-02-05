@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this theory, data, or simulation in your research, please cite it as follows."
+authors:
+- family-names: "[Soyadın]"
+  given-names: "[Adın]"
+  orcid: "https://orcid.org/0000-0000-0000-0000" # Varsa ORCID numaranı yaz, yoksa bu satırı silebilirsin.
+title: "DPLU Theory: Dark Matter as a Cumulative Quantum Information Leakage"
+version: 1.0.0
+doi: "" # İleride makaleni bir dergide yayınlarsan buraya DOI numarasını ekleyeceğiz.
+date-released: 2026-02-05
+url: "https://github.com/[KullanıcıAdın]/[DepoAdın]"
+keywords:
+  - Theoretical Physics
+  - Dark Matter
+  - Quantum Information
+  - Cosmology
+  - JWST Anomaly
