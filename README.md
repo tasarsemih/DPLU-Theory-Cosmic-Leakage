@@ -1,6 +1,5 @@
 # DPLU Theory: Cosmic Information Leakage & Dark Matter Verification
 
-![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![Field](https://img.shields.io/badge/Field-Quantum_Cosmology-blueviolet)
 ![Status](https://img.shields.io/badge/Status-Pre--print-success)
 
@@ -49,7 +48,7 @@ For commercial inquiries, please contact the repository owner.
 
 This repository serves as a digital timestamp and formal declaration of intellectual priority for the DPLU model.
 
-**Author:** [Your Full Name]
+**Author:** Semih TAŞAR
 **Date:** February 5, 2026
 **Digital Signature:** `DPLU-Alpha-Release-2026`
 
@@ -58,4 +57,4 @@ This repository serves as a digital timestamp and formal declaration of intellec
 ## 📚 Citation
 
 If you utilize this theory or the provided simulation in your research, please cite it as follows:
-> [Your Last Name, Your First Name], "Information Leakage in 3D Temporal Manifolds: A Quantum Simulation of Dark Matter", GitHub Repository: [Link to this Repo], 2026.
+> tasar semih, "Information Leakage in 3D Temporal Manifolds: A Quantum Simulation of Dark Matter", GitHub Repository: https://github.com/tasarsemih/DPLU-Theory-Cosmic-Leakage, 2026.
